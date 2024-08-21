@@ -1,7 +1,7 @@
-package com.example.serverfx.Server.distance;
-import com.example.serverfx.Server.clustering.Cluster;
-import com.example.serverfx.Server.data.Data;
-import com.example.serverfx.Server.data.Example;
+package com.example.serverfx.distance;
+import com.example.serverfx.clustering.Cluster;
+import com.example.serverfx.data.Data;
+import com.example.serverfx.data.Example;
 
 import java.util.Iterator;
 

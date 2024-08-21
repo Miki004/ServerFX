@@ -1,4 +1,4 @@
-package com.example.serverfx.Server.database;
+package com.example.serverfx.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

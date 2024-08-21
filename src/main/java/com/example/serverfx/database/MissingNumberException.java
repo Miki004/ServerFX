@@ -1,4 +1,4 @@
-package com.example.serverfx.Server.database;
+package com.example.serverfx.database;
 
 public class MissingNumberException extends  Exception{
     public  MissingNumberException() {}

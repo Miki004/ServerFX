@@ -1,10 +1,9 @@
-package com.example.serverfx.Server.data;
-import com.example.serverfx.Server.database.*;
-import com.example.serverfx.Server.distance.InvalidSizeException;
+package com.example.serverfx.data;
+import com.example.serverfx.distance.InvalidSizeException;
+import com.example.serverfx.database.*;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 

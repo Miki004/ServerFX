@@ -1,6 +1,6 @@
-package com.example.serverfx.Server.clustering;
+package com.example.serverfx.clustering;
 
-import com.example.serverfx.Server.data.Data;
+import com.example.serverfx.data.Data;
 
 public class InvalidDepthException extends Exception {
 	/**

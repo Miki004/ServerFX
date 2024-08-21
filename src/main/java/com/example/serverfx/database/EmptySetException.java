@@ -1,6 +1,4 @@
-package com.example.serverfx.Server.database;
-
-import java.sql.ResultSet;
+package com.example.serverfx.database;
 
 public class EmptySetException extends Exception{
     public EmptySetException(){}

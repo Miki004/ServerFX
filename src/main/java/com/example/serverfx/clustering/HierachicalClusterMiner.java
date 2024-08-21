@@ -1,8 +1,8 @@
-package com.example.serverfx.Server.clustering;
+package com.example.serverfx.clustering;
 
-import com.example.serverfx.Server.data.Data;
-import com.example.serverfx.Server.distance.ClusterDistance;
-import com.example.serverfx.Server.distance.InvalidSizeException;
+import com.example.serverfx.data.Data;
+import com.example.serverfx.distance.ClusterDistance;
+import com.example.serverfx.distance.InvalidSizeException;
 
 import java.io.*;
 

@@ -1,5 +1,5 @@
-package com.example.serverfx.Server.data;
-import com.example.serverfx.Server.distance.InvalidSizeException;
+package com.example.serverfx.data;
+import com.example.serverfx.distance.InvalidSizeException;
 
 import java.util.Iterator;
 import java.util.LinkedList;

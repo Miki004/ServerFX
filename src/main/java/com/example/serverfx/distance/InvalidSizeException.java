@@ -1,4 +1,4 @@
-package com.example.serverfx.Server.distance;
+package com.example.serverfx.distance;
 
 public class InvalidSizeException extends Exception {
 

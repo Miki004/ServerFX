@@ -1,9 +1,9 @@
-package com.example.serverfx.Server.distance;
+package com.example.serverfx.distance;
 
-import com.example.serverfx.Server.clustering.HierachicalClusterMiner;
-import com.example.serverfx.Server.clustering.InvalidDepthException;
-import com.example.serverfx.Server.data.Data;
-import com.example.serverfx.Server.data.NoDataException;
+import com.example.serverfx.clustering.HierachicalClusterMiner;
+import com.example.serverfx.clustering.InvalidDepthException;
+import com.example.serverfx.data.Data;
+import com.example.serverfx.data.NoDataException;
 
 import java.io.*;
 import java.net.Socket;

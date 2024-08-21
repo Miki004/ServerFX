@@ -1,4 +1,4 @@
-package com.example.serverfx.Server.data;
+package com.example.serverfx.data;
 
 public class NoDataException  extends Exception{
     public NoDataException() {}
