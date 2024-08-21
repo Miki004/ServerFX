@@ -1,6 +1,5 @@
-package com.example.serverfx.Server;
+package com.example.serverfx;
 
-import com.example.serverfx.MainTest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,15 +8,28 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class ServerStartController {
-    private final Stage stage = new Stage();
+public class StartServerController {
+    private String ip;
+    private Stage stage;
     private MainTest main = new MainTest();
+    private ServerController controller;
 
     public void startServer(ActionEvent event) throws IOException {
         FXMLLoader loader =new FXMLLoader(getClass().getResource("/com/example/serverfx/ServerScene.fxml"));
         Parent root = loader.load();
+        controller = loader.getController();
         stage.setScene(new Scene(root));
-      //  main.initServer();
         stage.show();
+        main.start();
+        ip=main.getIp();
+        writeOnArea();
+    }
+
+    public void writeOnArea() {
+        controller.appendIP(ip);
+    }
+
+    public void setStage(Stage stage) {
+        this.stage=stage;
     }
 }
