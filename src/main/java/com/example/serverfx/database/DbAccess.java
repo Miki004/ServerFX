@@ -17,7 +17,7 @@ public class DbAccess {
     private  String DATABASE = "MapDB";
     private  int PORT = 3306;
     private  String USER_ID = "MapUser";
-    private  String PASSWORD = "Onepiece.1!";
+    private  String PASSWORD = "map";
 
     private Connection conn;
 

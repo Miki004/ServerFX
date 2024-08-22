@@ -1,9 +1,5 @@
 package com.example.serverfx;
-
 import com.example.serverfx.distance.ServerOneClient;
-import javafx.application.Application;
-import javafx.stage.Stage;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -57,7 +53,6 @@ public class MainTest extends Thread{
             server.close();
         }
     }
-
 
     public String getIp() {
         return ip;
