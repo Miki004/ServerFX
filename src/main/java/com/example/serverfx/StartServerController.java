@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class StartServerController {
-    private String ip;
     private Stage stage;
     private MainTest main = new MainTest();
     private ServerController controller;
@@ -21,11 +20,11 @@ public class StartServerController {
         stage.setScene(new Scene(root));
         stage.show();
         main.start();
-        ip=main.getIp();
-        writeOnArea();
+        main.setController(this);
+
     }
 
-    public void writeOnArea() {
+    public void writeOnArea(String ip) {
         controller.appendIP(ip);
     }
 

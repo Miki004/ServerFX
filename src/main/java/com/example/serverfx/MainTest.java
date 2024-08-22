@@ -5,7 +5,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class MainTest extends Thread{
-    private String ip;
+    private StartServerController serverController;
     @Override
     public void run() {
         try {
@@ -23,7 +23,7 @@ public class MainTest extends Thread{
                 server = new ServerSocket(PORT);
                 while (true) {
                     Socket socket=server.accept();
-                    ip=socket.getInetAddress().getHostAddress();
+                    serverController.writeOnArea(socket.getInetAddress().getHostAddress());
                     try {
                         new ServerOneClient(socket);
                     }catch (IOException e) {
@@ -54,8 +54,8 @@ public class MainTest extends Thread{
         }
     }
 
-    public String getIp() {
-        return ip;
+    public void setController(StartServerController startServerController) {
+        serverController=startServerController;
     }
 }
 
