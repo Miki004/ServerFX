@@ -5,9 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Gestisce l'accesso al DB per la lettura dei dati di training
- * @author Map Tutor
+ * La classe DbAccess gestisce l'accesso a un database MySQL per la lettura dei dati di training.
+ * Fornisce metodi per inizializzare la connessione, ottenere la connessione, e chiuderla.
  *
+ * @author Map Tutor
  */
 public class DbAccess {
 
@@ -21,6 +22,12 @@ public class DbAccess {
 
     private Connection conn;
 
+    /**
+     * Costruisce un'istanza di DbAccess e tenta di stabilire una connessione al database.
+     *
+     * @throws DatabaseConnectionException Se si verifica un errore durante il caricamento del driver
+     *                                      o la connessione al database.
+     */
     public DbAccess() throws DatabaseConnectionException {
         try {
             Class.forName(DRIVER_CLASS_NAME).newInstance();
@@ -50,8 +57,10 @@ public class DbAccess {
 
     /**
      * Inizializza la connessione al database.
+     * Questo metodo carica il driver JDBC e stabilisce una connessione al database.
      *
-     * @throws DatabaseConnectionException Eccezione lanciata se la connessione al database fallisce.
+     * @throws DatabaseConnectionException Se si verifica un errore durante il caricamento del driver
+     *                                      o la connessione al database.
      */
     public void initConnection() throws DatabaseConnectionException
     {
@@ -75,9 +84,10 @@ public class DbAccess {
 
     /**
      * Restituisce la connessione al database.
+     * Se la connessione non è stata inizializzata, questo metodo la inizializza prima di restituirla.
      *
-     * @return Connessione al database.
-     * @throws DatabaseConnectionException Eccezione lanciata se la connessione al database fallisce.
+     * @return La connessione al database.
+     * @throws DatabaseConnectionException Se si verifica un errore durante l'inizializzazione della connessione.
      */
     public Connection getConnection() throws DatabaseConnectionException{
         this.initConnection();
@@ -87,7 +97,7 @@ public class DbAccess {
     /**
      * Chiude la connessione al database.
      *
-     * @throws SQLException Eccezione lanciata se si verifica un errore durante la chiusura della connessione.
+     * @throws SQLException Se si verifica un errore durante la chiusura della connessione.
      */
     public void closeConnection() throws SQLException {
         conn.close();

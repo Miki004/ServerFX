@@ -8,28 +8,68 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
+/**
+ * La classe {@code TableSchema} gestisce la struttura di una tabella in un database,
+ * recuperando le informazioni sulle colonne e i loro tipi.
+ */
 public class TableSchema {
 	private DbAccess db;
+	/**
+	 * La classe interna {@code Column} rappresenta una colonna nella tabella.
+	 */
 	public class Column{
 		private String name;
 		private String type;
+
+		/**
+		 * Costruisce un'istanza di {@code Column} con il nome e il tipo della colonna.
+		 *
+		 * @param name il nome della colonna.
+		 * @param type il tipo della colonna.
+		 */
 		Column(String name,String type){
 			this.name=name;
 			this.type=type;
 		}
+		/**
+		 * Restituisce il nome della colonna.
+		 *
+		 * @return il nome della colonna.
+		 */
 		public String getColumnName(){
 			return name;
 		}
+
+		/**
+		 * Verifica se il tipo della colonna è numerico.
+		 *
+		 * @return {@code true} se il tipo della colonna è "number", altrimenti {@code false}.
+		 */
 		public boolean isNumber(){
 			return type.equals("number");
 		}
+
+		/**
+		 * Restituisce una rappresentazione testuale della colonna.
+		 *
+		 * @return una stringa che rappresenta la colonna nel formato "nome:tipo".
+		 */
 		public String toString(){
 			return name+":"+type;
 		}
 	}
+
+
 	List<Column> tableSchema=new ArrayList<Column>();
-	
+
+	/**
+	 * Costruisce un'istanza di {@code TableSchema} per una tabella specificata.
+	 *
+	 * @param db l'oggetto {@link DbAccess} utilizzato per connettersi al database.
+	 * @param tableName il nome della tabella di cui recuperare la struttura.
+	 * @throws SQLException se si verifica un errore durante l'accesso alle informazioni della tabella.
+	 * @throws DatabaseConnectionException se si verifica un errore durante la connessione al database.
+	 */
 	public TableSchema(DbAccess db, String tableName) throws SQLException, DatabaseConnectionException{
 		this.db=db;
 		HashMap<String,String> mapSQL_JAVATypes=new HashMap<String, String>();
@@ -58,11 +98,23 @@ public class TableSchema {
 	      }
 	      res.close();
 	    }
-		public int getNumberOfAttributes(){
+
+	/**
+	 * Restituisce il numero di colonne nella tabella.
+	 *
+	 * @return il numero di colonne.
+	 */
+	public int getNumberOfAttributes(){
 			return tableSchema.size();
 		}
-		
-		public Column getColumn(int index){
+
+	/**
+	 * Restituisce la colonna alla posizione specificata.
+	 *
+	 * @param index l'indice della colonna da recuperare.
+	 * @return l'oggetto {@code Column} alla posizione specificata.
+	 */
+	public Column getColumn(int index){
 			return tableSchema.get(index);
 		}
 	}

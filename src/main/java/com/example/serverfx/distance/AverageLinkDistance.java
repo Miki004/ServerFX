@@ -5,14 +5,31 @@ import com.example.serverfx.data.Example;
 
 import java.util.Iterator;
 
-
+/**
+ * Implementa la misura di distanza tra due cluster utilizzando la tecnica dell'Average Linkage.
+ * La distanza media (Average Linkage) tra due cluster è calcolata come la media delle distanze tra tutti i
+ * possibili accoppiamenti di esempi tra i due cluster.
+ */
 public class AverageLinkDistance implements ClusterDistance{
+
+	/**
+	 * Calcola la distanza tra due cluster utilizzando la tecnica dell'Average Linkage.
+	 *
+	 * @param c1 il primo cluster.
+	 * @param c2 il secondo cluster.
+	 * @param d il dataset contenente gli esempi.
+	 * @return la distanza media tra i due cluster.
+	 * @throws InvalidSizeException se le dimensioni dei cluster non sono valide.
+	 */
 	public double distance(Cluster c1, Cluster c2, Data d) throws InvalidSizeException {
 		double distance=0;
 		Iterator<Integer> it2=c2.iterator();
 		Iterator<Integer> it=c1.iterator();
+
+		// Itera attraverso tutti gli esempi del primo cluster
 		while(it.hasNext()) {
 			Example e1=d.getExample(it.next());
+			// Itera attraverso tutti gli esempi del secondo cluster
 			while(it2.hasNext()) {
 				distance=distance+e1.distance(d.getExample(it2.next()));
 

@@ -8,19 +8,29 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * La classe TableData gestisce l'accesso ai dati da una tabella di un database e
+ * fornisce metodi per ottenere i dati sotto forma di una lista di oggetti {@link Example}.
+ */
 public class TableData {
     private DbAccess db;
+    /**
+     * Costruisce un'istanza di TableData con un oggetto {@link DbAccess} per gestire l'accesso al database.
+     *
+     * @param db l'oggetto {@link DbAccess} utilizzato per connettersi al database.
+     */
     public TableData(DbAccess db) {
         this.db=db;
     }
 
     /**
-     * @param table rappresenta il nome della tabella
+     * Recupera i dati distinti dalla tabella specificata e li converte in una lista di oggetti {@link Example}.
      *
-     * @return esempi rappresenta una lista di {@code Example} rappresentano il dataset
-     * @throws SQLException oggetto connection potrebbe aver fallito
-     * @throws EmptySetException resulset vuoto
-     * @throws MissingNumberException resultset presenta attributi numerici
+     * @param table il nome della tabella da cui recuperare i dati.
+     * @return una lista di oggetti {@link Example} rappresentanti il dataset recuperato dalla tabella.
+     * @throws SQLException se si verifica un errore durante l'esecuzione delle query SQL.
+     * @throws EmptySetException se il risultato della query è vuoto.
+     * @throws MissingNumberException se il risultato della query contiene attributi non numerici.
      */
     public List<Example> getDistinctTransazioni(String table) throws SQLException,EmptySetException,MissingNumberException{
         List<Example> esempi=new ArrayList<>();

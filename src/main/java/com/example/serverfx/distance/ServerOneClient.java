@@ -8,11 +8,21 @@ import com.example.serverfx.data.NoDataException;
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * Classe che gestisce la comunicazione con un singolo client.
+ * Esegue operazioni basate sulle richieste del client.
+ */
 public class ServerOneClient extends Thread{
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
 
+    /**
+     * Crea un'istanza di {@code ServerOneClient} e inizializza gli stream di input e output.
+     *
+     * @param socket il socket utilizzato per la comunicazione con il client.
+     * @throws IOException se si verifica un errore durante l'inizializzazione degli stream.
+     */
    public ServerOneClient(Socket socket) throws IOException {
         this.socket=socket;
         out=new ObjectOutputStream(this.socket.getOutputStream());
@@ -20,6 +30,9 @@ public class ServerOneClient extends Thread{
         this.start();//viene creato un thread separato,alla fine di ciò verrà invocato il metodo run
     }
 
+    /**
+     * Gestisce le richieste del client e invia risposte.
+     */
     @Override
     public void run() {
         try {
