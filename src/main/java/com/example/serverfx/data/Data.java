@@ -1,67 +1,27 @@
 package com.example.serverfx.data;
 import com.example.serverfx.distance.InvalidSizeException;
 import com.example.serverfx.database.*;
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class Data {
 	private List<Example> data = new ArrayList<Example>();
-	//private Example data []; rappresenta il
-	
-	private int numberOfExamples;// numero di esempi nel
+	private int numberOfExamples;
+
 	public Data(String tableName) throws NoDataException{
 		try {
 			DbAccess db=new DbAccess();
 			TableData tabella=new TableData(db);
 			 this.data= tabella.getDistinctTransazioni(tableName);
+			 db.closeConnection();
 			 this.numberOfExamples=data.size();
-		}catch (DatabaseConnectionException | MissingNumberException | SQLException e) {
-			throw  new NoDataException();
-		}catch (EmptySetException e) {
+		}catch (DatabaseConnectionException | MissingNumberException | SQLException | EmptySetException e) {
 			throw  new NoDataException();
 		}
 
 
     }
-	/*
-	public Data() {
-
-		Example e=new Example();
-		e.add(1.0);
-		e.add(2.0);
-		e.add(0.0);
-		data.add(e);
-
-		e=new Example();
-		e.add(0.0);
-		e.add(1.0);
-		e.add(-1.0);
-		data.add(e);
-
-		e=new Example();
-		e.add(1.0);
-		e.add(3.0);
-		e.add(5.0);
-		data.add(e);
-
-		e=new Example();
-		e.add(1.0);
-		e.add(3.0);
-		e.add(4.0);
-		data.add(e);
-
-		e=new Example();
-		e.add(2.0);
-		e.add(2.0);
-		e.add(0.0);
-		data.add(e);
-
-		numberOfExamples=5;
-	}
-	*/
 
 	public int getNumberOfExamples() {
 		return numberOfExamples;

@@ -29,7 +29,7 @@ public class ServerOneClient extends Thread{
                 if (scelta == 0) {//potremmo ritornare qui anche quando si è verificata un eccezzione
                     int flag=0;
                     try {
-                        data = new Data((String) in.readObject());
+                            data = new Data((String) in.readObject());
                     }catch (NoDataException e) {
                         out.writeObject("Nessun dato presente nella seguente tabella");
                         flag=1;

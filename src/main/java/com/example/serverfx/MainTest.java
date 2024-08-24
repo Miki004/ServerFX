@@ -35,25 +35,6 @@ public class MainTest extends Thread{
             }
         }
 
-    public static void main(String[] args) throws IOException {
-
-        final int PORT=8080;
-        ServerSocket server=null;
-        try {
-            server = new ServerSocket(PORT);
-            while (true) {
-                Socket socket=server.accept();
-                try {
-                    new ServerOneClient(socket);
-                }catch (IOException e) {
-                    socket.close();
-                }
-            }
-        }finally {
-            server.close();
-        }
-    }
-
     public void setController(StartServerController startServerController) {
         serverController=startServerController;
     }

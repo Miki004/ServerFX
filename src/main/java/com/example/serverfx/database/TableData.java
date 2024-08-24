@@ -29,8 +29,6 @@ public class TableData {
         try {
             s = db.getConnection().createStatement();
             ResultSet puntatoreTabella = s.executeQuery("Select * from " + table);
-            //EmptySetException.verificaVuoto(puntatoreTabella.next());
-
             while (puntatoreTabella.next()) {
 
                 Example iesimoEsempio = new Example();
@@ -49,7 +47,6 @@ public class TableData {
             puntatoreTabella.close();//chiude anche il resultset
             ResultSet r=s.executeQuery("Select * from " + table);
             EmptySetException.verificaVuoto(r.next());
-            r.close();
             s.close();
         }catch (DatabaseConnectionException e) {
                 System.out.println(e.getMessage());
