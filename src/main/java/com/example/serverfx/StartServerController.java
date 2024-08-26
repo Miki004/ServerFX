@@ -18,6 +18,7 @@ public class StartServerController {
         Parent root = loader.load();
         controller = loader.getController();
         stage.setScene(new Scene(root));
+        stage.setResizable(false);
         stage.show();
         main.start();
         main.setController(this);

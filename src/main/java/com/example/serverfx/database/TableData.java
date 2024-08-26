@@ -2,6 +2,7 @@ package com.example.serverfx.database;
 
 import com.example.serverfx.data.Example;
 
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;

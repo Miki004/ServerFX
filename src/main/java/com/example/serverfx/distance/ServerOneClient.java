@@ -4,9 +4,16 @@ import com.example.serverfx.clustering.HierachicalClusterMiner;
 import com.example.serverfx.clustering.InvalidDepthException;
 import com.example.serverfx.data.Data;
 import com.example.serverfx.data.NoDataException;
+import com.example.serverfx.database.DatabaseConnectionException;
+import com.example.serverfx.database.DbAccess;
 
 import java.io.*;
 import java.net.Socket;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServerOneClient extends Thread{
     private Socket socket;
@@ -20,27 +27,48 @@ public class ServerOneClient extends Thread{
         this.start();//viene creato un thread separato,alla fine di ciò verrà invocato il metodo run
     }
 
+    public List<String> getTables() {
+        List<String> listaTabelle= new ArrayList<>();
+        try {
+            DbAccess db = new DbAccess();
+            DatabaseMetaData metaData =db.getConnection().getMetaData();
+            ResultSet tables= metaData.getTables(null,null, "%", new String[] {"TABLE"} );
+            while (tables.next()) {
+                String tableName = tables.getString("TABLE_NAME");
+                listaTabelle.add(tableName);
+            }
+            tables.close();
+            db.closeConnection();
+            return listaTabelle;
+        } catch (SQLException | DatabaseConnectionException e) {
+            return listaTabelle;
+        }
+    }
+
     @Override
     public void run() {
+       HierachicalClusterMiner tempcluster = null;
+        try {
+            List<String> list= getTables();
+            out.writeObject(list);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         try {
             Data data=null;
+            boolean saveble=false;
             while (true) {
-                int scelta = (int) in.readObject();
-                if (scelta == 0) {//potremmo ritornare qui anche quando si è verificata un eccezzione
-                    int flag=0;
+                int scelta = (Integer) in.readObject();
+                if(scelta==0) {
                     try {
-                            data = new Data((String) in.readObject());
-                    }catch (NoDataException e) {
-                        out.writeObject("Nessun dato presente nella seguente tabella");
-                        flag=1;
-                    }
-                    if(flag==0) {
-                        out.writeObject("OK");
+                        data = new Data((String) in.readObject());
+                    } catch (NoDataException e) {
+                        out.writeObject("Nessun dato presente nella tabella ");
                     }
                 } else if (scelta == 1) {
-                    int k=(int) in.readObject();
                     HierachicalClusterMiner clustering;
                     try {
+                        int k=(int) in.readObject();
                         clustering= new HierachicalClusterMiner(k);
                         InvalidDepthException.VerificareDimensione(k, data);
                     }catch (InvalidDepthException e) {
@@ -49,24 +77,25 @@ public class ServerOneClient extends Thread{
                     int tipoOperazione =(int) in.readObject();
                     if(tipoOperazione==1) {
                         clustering.mine(data, new SingleLinkDistance());
+                        tempcluster=clustering;
+                        saveble=true;
                         out.writeObject("OK");
                         out.writeObject(clustering.toString(data));
-                        try {
-                            String nomeFile= (String) in.readObject();
-                            clustering.salva(nomeFile);
-                        }catch (IOException e){
-                            out.writeObject("Errore durante il salvataggio !!");
-                        }
+
                     }else if(tipoOperazione==2) {
                         clustering.mine(data, new AverageLinkDistance());
+                        tempcluster=clustering;
+                        saveble=true;
                         out.writeObject("OK");
                         out.writeObject(clustering.toString(data));
-                        try {
-                            String nomeFile= (String) in.readObject();
-                            clustering.salva(nomeFile);
-                        }catch (IOException e){
-                            out.writeObject("Errore durante il salvataggio !!");
-                        }
+
+                    }
+                } else if (saveble && scelta==3) {
+                    try {
+                        String nomeFile= (String) in.readObject();
+                        tempcluster.salva(nomeFile);
+                    }catch (IOException e){
+                        out.writeObject("Errore durante il salvataggio !!");
                     }
                 } else if (scelta == 2) {
                     String nomeFile= (String) in.readObject();

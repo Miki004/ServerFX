@@ -21,8 +21,8 @@ public class InvalidDepthException extends Exception {
 	 * @throws InvalidDepthException
 	 */
 	public static void VerificareDimensione(int k, Data data) throws InvalidDepthException {
-		if(k>data.getNumberOfExamples())
-			throw new InvalidDepthException("dimensione inserita non valida,superiore al numero di esempi");
+		if(k>data.getNumberOfExamples() || k<0)
+			throw new InvalidDepthException("dimensione inserita non valida");
 	}
 	
 

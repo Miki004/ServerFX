@@ -13,6 +13,7 @@ public class ServerApp extends Application {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/serverfx/StartServer.fxml"));
         Parent root = loader.load();
         stage.setScene(new Scene(root));
+        stage.setResizable(false);
         stage.show();
         StartServerController controller= loader.getController();
         controller.setStage(stage);

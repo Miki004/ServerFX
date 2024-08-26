@@ -9,10 +9,10 @@ public class ServerController {
     @FXML
     private TextArea areaIP;
     public void appendIP(String ip) {
+        areaIP.clear();
         areaIP.appendText(ip);
     }
     public void terminate(ActionEvent event) {
-
         System.exit(0);
     }
 
