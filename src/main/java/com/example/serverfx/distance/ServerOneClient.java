@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ServerOneClient extends Thread{
+
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
@@ -120,7 +121,11 @@ public class ServerOneClient extends Thread{
                 System.err.println("Socket non chiusa");
             }
         } catch (InvalidSizeException e) {
-            throw new RuntimeException(e);
+            try {
+                out.writeObject(e.getMessage());
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 }

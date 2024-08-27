@@ -10,7 +10,6 @@ import java.util.TreeSet;
 
 public class Cluster implements Iterable<Integer>, Cloneable, Serializable {
     private Set<Integer> clusteredData = new TreeSet<>();
-    //add the index of a sample to the cluster, il tree set è un set ordinato
     void addData(int id) {
         clusteredData.add(id);
     }

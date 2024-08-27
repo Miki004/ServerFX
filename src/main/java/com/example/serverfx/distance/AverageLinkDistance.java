@@ -19,16 +19,6 @@ public class AverageLinkDistance implements ClusterDistance{
 			}
 		}
 		return distance;
-		/*
-		for (int i=0;i< c1.getSize();i++) {
-			Example e1=d.getExample(c1.getElement(i));
-			for(int j=0; j<c2.getSize();j++) {
-				distance=distance+e1.distance(d.getExample(c2.getElement(j)));	
-			}
-		}
-		distance=distance/(c1.getSize()*c2.getSize());
-		*/
-		
 	}
 
 }
