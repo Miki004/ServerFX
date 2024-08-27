@@ -26,24 +26,18 @@ public class TableData {
     public List<Example> getDistinctTransazioni(String table) throws SQLException,EmptySetException,MissingNumberException{
         List<Example> esempi=new ArrayList<>();
         Statement s;
-        //tutto il codice sql potrebbe generare eccezzioni Sqlexception
         try {
             s = db.getConnection().createStatement();
             ResultSet puntatoreTabella = s.executeQuery("Select * from " + table);
+            int numColonne= puntatoreTabella.getMetaData().getColumnCount();
             while (puntatoreTabella.next()) {
-
                 Example iesimoEsempio = new Example();
-                Double data=puntatoreTabella.getDouble("X1");
-                MissingNumberException.verificaIntero(data);
-                iesimoEsempio.add(data);
-                data=puntatoreTabella.getDouble("X2");
-                MissingNumberException.verificaIntero(data);
-                iesimoEsempio.add(data);
-                data=puntatoreTabella.getDouble("X3");
-                MissingNumberException.verificaIntero(data);
-                iesimoEsempio.add(data);
+                for(int i=1; i<= numColonne; i++) {
+                    Double data=puntatoreTabella.getDouble(i);
+                    MissingNumberException.verificaIntero(data);
+                    iesimoEsempio.add(data);
+                }
                 esempi.add(iesimoEsempio);
-
             }
             puntatoreTabella.close();//chiude anche il resultset
             ResultSet r=s.executeQuery("Select * from " + table);

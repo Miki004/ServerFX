@@ -63,6 +63,7 @@ public class ServerOneClient extends Thread{
                 if(scelta==0) {
                     try {
                         data = new Data((String) in.readObject());
+                        out.writeObject("OK");
                     } catch (NoDataException e) {
                         out.writeObject("Nessun dato presente nella tabella ");
                     }
