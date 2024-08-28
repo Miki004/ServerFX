@@ -124,7 +124,7 @@ public class ServerOneClient extends Thread{
                         out.writeObject("Errore durante il salvataggio !!");
                     }
                 } else if (scelta == 2) {
-                    String nomeFile= (String) in.readObject();
+                    String nomeFile = (String) in.readObject();
                     HierachicalClusterMiner clustering=null;
                     int flag=0;
                     try {
@@ -135,7 +135,12 @@ public class ServerOneClient extends Thread{
                     }
                     if(flag==0) {
                         out.writeObject("OK");
-                        out.writeObject(clustering.toString(data));
+                        try {
+                            out.writeObject(clustering.toString(data));
+                        }catch (IndexOutOfBoundsException e) {
+                            out.writeObject("il file specificato potrebbe esserre stato creato con un altra tabella");
+                        }
+
                     }
                 }
             }
