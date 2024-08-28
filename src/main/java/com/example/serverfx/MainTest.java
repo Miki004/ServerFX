@@ -6,6 +6,7 @@ import java.net.Socket;
 
 public class MainTest extends Thread{
     private StartServerController serverController;
+
     @Override
     public void run() {
         try {

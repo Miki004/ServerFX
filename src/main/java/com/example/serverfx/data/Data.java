@@ -9,14 +9,13 @@ public class Data {
 	private List<Example> data = new ArrayList<Example>();
 	private int numberOfExamples;
 
-	public Data(String tableName) throws NoDataException{
+	public Data(DbAccess db,String tableName) throws NoDataException{
 		try {
-			DbAccess db=new DbAccess();
 			TableData tabella=new TableData(db);
 			 this.data= tabella.getDistinctTransazioni(tableName);
 			 db.closeConnection();
 			 this.numberOfExamples=data.size();
-		}catch (DatabaseConnectionException | MissingNumberException | SQLException | EmptySetException e) {
+		}catch (MissingNumberException | SQLException | EmptySetException e) {
 			throw  new NoDataException();
 		}
 
@@ -56,30 +55,6 @@ public class Data {
 
         }
 		return str.toString();
-	}
-
-	public static void main(String[] args) {
-		try {
-
-			String nomeTabella = Keyboard.readString();
-			Data trainingSet = new Data(nomeTabella);
-			System.out.println(trainingSet);
-			try {
-				double[][] distancematrix = trainingSet.distance();
-				System.out.println("Distance matrix:\n");
-				for (int i = 0; i < distancematrix.length; i++) {
-					for (int j = 0; j < distancematrix.length; j++) {
-						System.out.print(distancematrix[i][j] + "\t");
-					}
-					System.out.println("");
-				}
-			} catch (InvalidSizeException e) {
-				System.out.println("impossibile calcolare la distanza,dimensioni diverse");
-			}
-
-		}catch (NoDataException e) {
-			System.out.println(e.getMessage());
-		}
 	}
 
 }

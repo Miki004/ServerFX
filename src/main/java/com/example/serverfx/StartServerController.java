@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class StartServerController {
+
     private Stage stage;
     private MainTest main = new MainTest();
     private ServerController controller;

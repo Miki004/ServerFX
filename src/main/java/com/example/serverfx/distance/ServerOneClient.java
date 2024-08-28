@@ -20,6 +20,8 @@ public class ServerOneClient extends Thread{
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private String stringconnection;
+    private List<String> list;
 
    public ServerOneClient(Socket socket) throws IOException {
         this.socket=socket;
@@ -31,7 +33,7 @@ public class ServerOneClient extends Thread{
     public List<String> getTables() {
         List<String> listaTabelle= new ArrayList<>();
         try {
-            DbAccess db = new DbAccess();
+            DbAccess db = new DbAccess(stringconnection);
             DatabaseMetaData metaData =db.getConnection().getMetaData();
             ResultSet tables= metaData.getTables(null,null, "%", new String[] {"TABLE"} );
             while (tables.next()) {
@@ -45,13 +47,35 @@ public class ServerOneClient extends Thread{
             return listaTabelle;
         }
     }
+        public void setDataBase() throws IOException, DatabaseConnectionException, ClassNotFoundException {
+           String Server= (String) in.readObject();
+           String Database = (String) in.readObject();
+           Integer Port = (Integer) in.readObject();
+           String User_ID= (String) in.readObject();
+           String password= (String) in.readObject();
+           stringconnection=Server + ":" + Port + "/" + Database
+                   + "?user=" + User_ID + "&password=" + password + "&serverTimezone=UTC";
+    }
 
     @Override
     public void run() {
+       DbAccess db=null;
+       boolean validConnection;
        HierachicalClusterMiner tempcluster = null;
+       do {
+           try {
+               setDataBase();
+               db = new DbAccess(stringconnection);
+               db.closeConnection();
+               validConnection=true;
+               out.writeObject("OK");
+           } catch (SQLException | ClassNotFoundException | IOException | DatabaseConnectionException e) {
+               validConnection=false;
+           }
+       }while (validConnection==false);
+
         try {
-            List<String> list= getTables();
-            out.writeObject(list);
+            out.writeObject(getTables());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -62,7 +86,7 @@ public class ServerOneClient extends Thread{
                 int scelta = (Integer) in.readObject();
                 if(scelta==0) {
                     try {
-                        data = new Data((String) in.readObject());
+                        data = new Data(db,(String) in.readObject());
                         out.writeObject("OK");
                     } catch (NoDataException e) {
                         out.writeObject("Nessun dato presente nella tabella ");

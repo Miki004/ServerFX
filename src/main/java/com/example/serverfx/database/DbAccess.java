@@ -13,15 +13,15 @@ public class DbAccess {
 
 	private String DRIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver";
     private  String DBMS = "jdbc:mysql";
-    private  String SERVER = "localhost";
-    private  String DATABASE = "MapDB";
-    private  int PORT = 3306;
-    private  String USER_ID = "MapUser";
-    private  String PASSWORD = "map";
-
     private Connection conn;
+    private String Stringc;
 
-    public DbAccess() throws DatabaseConnectionException {
+    public void setStringc(String stringc) {
+        Stringc = stringc;
+    }
+
+    public DbAccess(String stringconnection) throws DatabaseConnectionException {
+        setStringc(stringconnection);
         try {
             Class.forName(DRIVER_CLASS_NAME).newInstance();
         } catch(ClassNotFoundException e) {
@@ -34,8 +34,7 @@ public class DbAccess {
             System.out.println("[!] Cannot access the driver : " + e.getMessage());
             throw new DatabaseConnectionException();
         }
-        String connectionString = DBMS + "://" + SERVER + ":" + PORT + "/" + DATABASE
-                + "?user=" + USER_ID + "&password=" + PASSWORD + "&serverTimezone=UTC";
+        String connectionString =  DBMS + "://" +Stringc;
 
         System.out.println("Connection's String: " + connectionString);
         try {
@@ -61,8 +60,7 @@ public class DbAccess {
             System.out.println("[!] Driver not found: " + e.getMessage());
             throw new DatabaseConnectionException(e.toString());
         }
-        String connectionString = DBMS + "://" + SERVER + ":" + PORT + "/" + DATABASE
-                + "?user=" + USER_ID + "&password=" + PASSWORD + "&serverTimezone=UTC";
+        String connectionString = DBMS + "://" +Stringc;
 
         
         try {
