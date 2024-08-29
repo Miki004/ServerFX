@@ -10,6 +10,8 @@ public class ServerApp extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
+        stage = stage;
+        stage.setTitle("H-CLUS-Server");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/serverfx/StartServer.fxml"));
         Parent root = loader.load();
         stage.setScene(new Scene(root));
