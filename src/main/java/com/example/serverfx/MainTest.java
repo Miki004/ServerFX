@@ -24,6 +24,7 @@ public class MainTest extends Thread{
                 server = new ServerSocket(PORT);
                 while (true) {
                     Socket socket=server.accept();
+                    System.out.println(socket);
                     serverController.writeOnArea(socket.getInetAddress().getHostAddress());
                     try {
                         new ServerOneClient(socket);

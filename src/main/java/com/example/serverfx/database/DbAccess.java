@@ -38,6 +38,7 @@ public class DbAccess {
 
         System.out.println("Connection's String: " + connectionString);
         try {
+            DriverManager.setLoginTimeout(5);
             conn = DriverManager.getConnection(connectionString);
         } catch(SQLException e) {
             System.out.println("[!] SQLException: " + e.getMessage());
@@ -66,7 +67,6 @@ public class DbAccess {
         try {
             conn = DriverManager.getConnection(connectionString);
         } catch(SQLException e) {
-           
             throw new DatabaseConnectionException(e.toString());
         }
     }

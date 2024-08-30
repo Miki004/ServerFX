@@ -53,109 +53,106 @@ public class ServerOneClient extends Thread{
            Integer Port = (Integer) in.readObject();
            String User_ID= (String) in.readObject();
            String password= (String) in.readObject();
-           stringconnection=Server + ":" + Port + "/" + Database
+           stringconnection= Server + ":" + Port + "/" + Database
                    + "?user=" + User_ID + "&password=" + password + "&serverTimezone=UTC";
     }
 
     @Override
     public void run() {
+        boolean connectionAlive=true;
        DbAccess db=null;
-       boolean validConnection;
        HierachicalClusterMiner tempcluster = null;
-       do {
-           try {
-               setDataBase();
-               db = new DbAccess(stringconnection);
-               db.closeConnection();
-               validConnection=true;
-               out.writeObject("OK");
-           } catch (SQLException | ClassNotFoundException | IOException | DatabaseConnectionException e) {
-               validConnection=false;
-           }
-       }while (validConnection==false);
-
         try {
-            out.writeObject(getTables());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            setDataBase();
+            db = new DbAccess(stringconnection);
+            db.closeConnection();
+            out.writeObject("OK");
+        } catch (IOException | DatabaseConnectionException | ClassNotFoundException | SQLException e) {
+            try {
+                out.writeObject("NO");
+            } catch (IOException ex) {
+                System.out.println(ex.getMessage());
+            }
+            connectionAlive=false;
         }
-        try {
+
+        if (connectionAlive) {
+            try {
+                out.writeObject(getTables());
+            } catch (IOException e) {
+                System.out.println("Errore durante l'invio delle tabelle");
+                connectionAlive = false;
+            }
+        }
+
             Data data=null;
             boolean saveble=false;
-            while (true) {
-                int scelta = (Integer) in.readObject();
-                if(scelta==0) {
-                    try {
-                        data = new Data(db,(String) in.readObject());
-                        out.writeObject("OK");
-                    } catch (NoDataException e) {
-                        out.writeObject("Nessun dato presente nella tabella ");
-                    }
-                } else if (scelta == 1) {
-                    HierachicalClusterMiner clustering;
-                    try {
-                        int k=(int) in.readObject();
-                        clustering= new HierachicalClusterMiner(k);
-                        InvalidDepthException.VerificareDimensione(k, data);
-                    }catch (InvalidDepthException e) {
-                        clustering = new HierachicalClusterMiner(data.getNumberOfExamples());
-                    }
-                    int tipoOperazione =(int) in.readObject();
-                    if(tipoOperazione==1) {
-                        clustering.mine(data, new SingleLinkDistance());
-                        tempcluster=clustering;
-                        saveble=true;
-                        out.writeObject("OK");
-                        out.writeObject(clustering.toString(data));
+            while (connectionAlive) {
+                try {
 
-                    }else if(tipoOperazione==2) {
-                        clustering.mine(data, new AverageLinkDistance());
-                        tempcluster=clustering;
-                        saveble=true;
-                        out.writeObject("OK");
-                        out.writeObject(clustering.toString(data));
-
-                    }
-                } else if (saveble && scelta==3) {
-                    try {
-                        String nomeFile= (String) in.readObject();
-                        tempcluster.salva(nomeFile);
-                    }catch (IOException e){
-                        out.writeObject("Errore durante il salvataggio !!");
-                    }
-                } else if (scelta == 2) {
-                    String nomeFile = (String) in.readObject();
-                    HierachicalClusterMiner clustering=null;
-                    int flag=0;
-                    try {
-                        clustering = HierachicalClusterMiner.loaHierachicalClusterMiner(nomeFile);
-                    }catch (FileNotFoundException e) {
-                        out.writeObject("il file specificato non è stato trovato");
-                        flag=1;
-                    }
-                    if(flag==0) {
-                        out.writeObject("OK");
+                    int scelta = (Integer) in.readObject();
+                    if (scelta == 0) {
                         try {
-                            out.writeObject(clustering.toString(data));
-                        }catch (IndexOutOfBoundsException e) {
-                            out.writeObject("il file specificato potrebbe esserre stato creato con un altra tabella");
+                            data = new Data(db, (String) in.readObject());
+                            out.writeObject("OK");
+                        } catch (NoDataException e) {
+                            out.writeObject("Nessun dato presente nella tabella ");
                         }
+                    } else if (scelta == 1) {
+                        HierachicalClusterMiner clustering;
+                        try {
+                            int k = (int) in.readObject();
+                            clustering = new HierachicalClusterMiner(k);
+                            InvalidDepthException.VerificareDimensione(k, data);
+                        } catch (InvalidDepthException e) {
+                            clustering = new HierachicalClusterMiner(data.getNumberOfExamples());
+                        }
+                        int tipoOperazione = (int) in.readObject();
+                        if (tipoOperazione == 1) {
+                            clustering.mine(data, new SingleLinkDistance());
+                            tempcluster = clustering;
+                            saveble = true;
+                            out.writeObject("OK");
+                            out.writeObject(clustering.toString(data));
 
+                        } else if (tipoOperazione == 2) {
+                            clustering.mine(data, new AverageLinkDistance());
+                            tempcluster = clustering;
+                            saveble = true;
+                            out.writeObject("OK");
+                            out.writeObject(clustering.toString(data));
+
+                        }
+                    } else if (saveble && scelta == 3) {
+                        try {
+                            String nomeFile = (String) in.readObject();
+                            tempcluster.salva(nomeFile);
+                        } catch (IOException e) {
+                            out.writeObject("Errore durante il salvataggio !!");
+                        }
+                    } else if (scelta == 2) {
+                        String nomeFile = (String) in.readObject();
+                        HierachicalClusterMiner clustering = null;
+                        int flag = 0;
+                        try {
+                            clustering = HierachicalClusterMiner.loaHierachicalClusterMiner(nomeFile);
+                        } catch (FileNotFoundException e) {
+                            out.writeObject("il file specificato non è stato trovato");
+                            flag = 1;
+                        }
+                        if (flag == 0) {
+                            out.writeObject("OK");
+                            try {
+                                out.writeObject(clustering.toString(data));
+                            } catch (IndexOutOfBoundsException e) {
+                                out.writeObject("il file specificato potrebbe esserre stato creato con un altra tabella");
+                            }
+
+                        }
                     }
+                }catch (ClassNotFoundException | IOException | InvalidSizeException e) {
+                    connectionAlive=false;
                 }
             }
-        }catch(ClassNotFoundException | IOException e) {
-            try {
-                socket.close();
-            } catch (IOException ex) {
-                System.err.println("Socket non chiusa");
-            }
-        } catch (InvalidSizeException e) {
-            try {
-                out.writeObject(e.getMessage());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
         }
-    }
 }
