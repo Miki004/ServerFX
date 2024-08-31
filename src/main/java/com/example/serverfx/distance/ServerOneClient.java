@@ -21,7 +21,6 @@ public class ServerOneClient extends Thread{
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private String stringconnection;
-    private List<String> list;
 
    public ServerOneClient(Socket socket) throws IOException {
         this.socket=socket;
@@ -59,7 +58,7 @@ public class ServerOneClient extends Thread{
 
     @Override
     public void run() {
-        boolean connectionAlive=true;
+       boolean connectionAlive=true;
        DbAccess db=null;
        HierachicalClusterMiner tempcluster = null;
         try {
