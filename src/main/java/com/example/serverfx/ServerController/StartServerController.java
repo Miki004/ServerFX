@@ -1,5 +1,6 @@
-package com.example.serverfx;
+package com.example.serverfx.ServerController;
 
+import com.example.serverfx.Server.MainTest;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;

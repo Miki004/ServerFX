@@ -1,9 +1,8 @@
-package com.example.serverfx;
+package com.example.serverfx.ServerController;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.KeyEvent;
 
 public class ServerController {
 
