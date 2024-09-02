@@ -1,4 +1,4 @@
-package com.example.serverfx.ServerController;
+package com.example.serverfx.Controllers;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

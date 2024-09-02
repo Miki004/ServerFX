@@ -1,4 +1,4 @@
-package com.example.serverfx.ServerController;
+package com.example.serverfx.Controllers;
 
 import com.example.serverfx.Server.MainTest;
 import javafx.event.ActionEvent;

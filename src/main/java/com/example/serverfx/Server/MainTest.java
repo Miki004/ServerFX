@@ -1,5 +1,5 @@
 package com.example.serverfx.Server;
-import com.example.serverfx.ServerController.StartServerController;
+import com.example.serverfx.Controllers.StartServerController;
 
 import java.io.IOException;
 import java.net.ServerSocket;
