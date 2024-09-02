@@ -6,8 +6,6 @@ package com.example.serverfx.distance;
  */
 public class InvalidSizeException extends Exception {
 
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * Costruttore predefinito per InvalidSizeException.
 	 */

@@ -1,4 +1,4 @@
-package com.example.serverfx.distance;
+package com.example.serverfx.Server;
 
 import com.example.serverfx.clustering.HierachicalClusterMiner;
 import com.example.serverfx.clustering.InvalidDepthException;
@@ -6,6 +6,9 @@ import com.example.serverfx.data.Data;
 import com.example.serverfx.data.NoDataException;
 import com.example.serverfx.database.DatabaseConnectionException;
 import com.example.serverfx.database.DbAccess;
+import com.example.serverfx.distance.AverageLinkDistance;
+import com.example.serverfx.distance.InvalidSizeException;
+import com.example.serverfx.distance.SingleLinkDistance;
 
 import java.io.*;
 import java.net.Socket;
@@ -127,8 +130,8 @@ public class ServerOneClient extends Thread{
                         HierachicalClusterMiner clustering;
                         try {
                             int k = (int) in.readObject();
-                            clustering = new HierachicalClusterMiner(k);
                             InvalidDepthException.VerificareDimensione(k, data);
+                            clustering = new HierachicalClusterMiner(k);
                         } catch (InvalidDepthException e) {
                             clustering = new HierachicalClusterMiner(data.getNumberOfExamples());
                         }

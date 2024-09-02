@@ -9,8 +9,6 @@ import com.example.serverfx.data.Data;
  */
 public class InvalidDepthException extends Exception {
 
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * Costruttore predefinito per InvalidDepthException.
 	 */
