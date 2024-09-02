@@ -8,28 +8,71 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
+/**
+ * La classe TableSchema gestisce la raccolta delle informazioni sullo schema di una tabella
+ * in un database, come i nomi delle colonne e i loro tipi di dati.
+ * Fornisce metodi per ottenere il numero di colonne e accedere alle informazioni di ciascuna colonna.
+ */
 public class TableSchema {
 	private DbAccess db;
+
+	/**
+	 * Classe interna che rappresenta una colonna di una tabella nel database.
+	 * Contiene informazioni sul nome e sul tipo di dati della colonna.
+	 */
 	public class Column{
 		private String name;
 		private String type;
+
+		/**
+		 * Costruttore della classe Column.
+		 *
+		 * @param name Il nome della colonna.
+		 * @param type Il tipo di dati della colonna.
+		 */
 		Column(String name,String type){
 			this.name=name;
 			this.type=type;
 		}
+
+		/**
+		 * Restituisce il nome della colonna.
+		 *
+		 * @return Il nome della colonna.
+		 */
 		public String getColumnName(){
 			return name;
 		}
+
+		/**
+		 * Verifica se il tipo di dati della colonna è numerico.
+		 *
+		 * @return {@code true} se il tipo di dati è "number", altrimenti {@code false}.
+		 */
 		public boolean isNumber(){
 			return type.equals("number");
 		}
+
+		/**
+		 * Restituisce una rappresentazione testuale della colonna nel formato "nome:tipo".
+		 *
+		 * @return Una stringa che rappresenta la colonna.
+		 */
 		public String toString(){
 			return name+":"+type;
 		}
 	}
 	List<Column> tableSchema=new ArrayList<Column>();
-	
+
+	/**
+	 * Costruttore della classe TableSchema.
+	 * Inizializza l'istanza di TableSchema e recupera le informazioni sullo schema della tabella specificata.
+	 *
+	 * @param db L'oggetto {@link DbAccess} utilizzato per accedere al database.
+	 * @param tableName Il nome della tabella di cui ottenere lo schema.
+	 * @throws SQLException Se si verifica un errore durante l'accesso al database o durante la lettura dei metadati.
+	 * @throws DatabaseConnectionException Se si verifica un errore nella connessione al database.
+	 */
 	public TableSchema(DbAccess db, String tableName) throws SQLException, DatabaseConnectionException{
 		this.db=db;
 		HashMap<String,String> mapSQL_JAVATypes=new HashMap<String, String>();
@@ -58,11 +101,23 @@ public class TableSchema {
 	      }
 	      res.close();
 	    }
-		public int getNumberOfAttributes(){
+
+	/**
+	 * Restituisce il numero di colonne nella tabella.
+	 *
+	 * @return Il numero di colonne.
+	 */
+	public int getNumberOfAttributes(){
 			return tableSchema.size();
 		}
-		
-		public Column getColumn(int index){
+
+	/**
+	 * Restituisce la colonna all'indice specificato.
+	 *
+	 * @param index L'indice della colonna.
+	 * @return L'oggetto {@link Column} che rappresenta la colonna all'indice specificato.
+	 */
+	public Column getColumn(int index){
 			return tableSchema.get(index);
 		}
 	}

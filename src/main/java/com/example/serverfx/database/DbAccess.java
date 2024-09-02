@@ -5,9 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * Gestisce l'accesso al DB per la lettura dei dati di training
- * @author Map Tutor
- *
+ * La classe DbAccess gestisce l'accesso al database per la lettura dei dati di training.
+ * Si occupa dell'inizializzazione della connessione al database, della gestione della connessione e della chiusura della connessione.
  */
 public class DbAccess {
 
@@ -16,10 +15,22 @@ public class DbAccess {
     private Connection conn;
     private String Stringc;
 
+    /**
+     * Imposta la stringa di connessione per il database.
+     *
+     * @param stringc La stringa di connessione al database.
+     */
     public void setStringc(String stringc) {
         Stringc = stringc;
     }
 
+    /**
+     * Costruttore che inizializza la connessione al database usando la stringa di connessione fornita.
+     * Lancia un'eccezione {@link DatabaseConnectionException} se si verifica un problema durante la connessione.
+     *
+     * @param stringconnection La stringa di connessione al database.
+     * @throws DatabaseConnectionException Se si verifica un errore durante la connessione al database.
+     */
     public DbAccess(String stringconnection) throws DatabaseConnectionException {
         setStringc(stringconnection);
         try {
@@ -50,8 +61,9 @@ public class DbAccess {
 
     /**
      * Inizializza la connessione al database.
+     * Lancia un'eccezione {@link DatabaseConnectionException} se si verifica un problema durante l'inizializzazione della connessione.
      *
-     * @throws DatabaseConnectionException Eccezione lanciata se la connessione al database fallisce.
+     * @throws DatabaseConnectionException Se si verifica un errore durante l'inizializzazione della connessione.
      */
     public void initConnection() throws DatabaseConnectionException
     {
@@ -73,9 +85,10 @@ public class DbAccess {
 
     /**
      * Restituisce la connessione al database.
+     * Se la connessione non è già inizializzata, la inizializza prima di restituirla.
      *
-     * @return Connessione al database.
-     * @throws DatabaseConnectionException Eccezione lanciata se la connessione al database fallisce.
+     * @return La connessione al database.
+     * @throws DatabaseConnectionException Se si verifica un errore durante l'ottenimento della connessione.
      */
     public Connection getConnection() throws DatabaseConnectionException{
         this.initConnection();

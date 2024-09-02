@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * Classe principale per avviare il server.
+ * Estende Thread per eseguire il server in un thread separato.
+ */
 public class MainTest extends Thread{
     private StartServerController serverController;
 
@@ -18,6 +22,13 @@ public class MainTest extends Thread{
 
     }
 
+    /**
+     * Inizializza e avvia il server.
+     * Ascolta sulla porta 8080 per le connessioni in entrata.
+     * Per ogni connessione accettata, crea una nuova istanza di ServerOneClient.
+     *
+     * @throws IOException Se si verifica un errore durante l'inizializzazione del server.
+     */
     public void initServer() throws IOException {
             final int PORT=8080;
             ServerSocket server=null;
@@ -38,6 +49,11 @@ public class MainTest extends Thread{
             }
         }
 
+    /**
+     * Imposta il controller per comunicare con l'interfaccia utente.
+     *
+     * @param startServerController Il controller dell'interfaccia utente.
+     */
     public void setController(StartServerController startServerController) {
         serverController=startServerController;
     }

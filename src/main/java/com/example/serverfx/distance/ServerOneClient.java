@@ -15,6 +15,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Gestisce la comunicazione tra un server e un client attraverso una connessione socket.
+ * Questa classe gestisce le richieste del client, inclusa la connessione al database,
+ * l'esecuzione di operazioni di clustering, e il salvataggio e il caricamento dei risultati.
+ */
 public class ServerOneClient extends Thread{
 
     private Socket socket;
@@ -22,6 +27,12 @@ public class ServerOneClient extends Thread{
     private ObjectInputStream in;
     private String stringconnection;
 
+    /**
+     * Costruttore che inizializza il socket e i flussi di input e output.
+     *
+     * @param socket Il socket tramite cui il server comunica con il client.
+     * @throws IOException Se si verifica un errore durante la creazione degli stream.
+     */
    public ServerOneClient(Socket socket) throws IOException {
         this.socket=socket;
         out=new ObjectOutputStream(this.socket.getOutputStream());
@@ -29,6 +40,11 @@ public class ServerOneClient extends Thread{
         this.start();//viene creato un thread separato,alla fine di ciò verrà invocato il metodo run
     }
 
+    /**
+     * Recupera l'elenco delle tabelle presenti nel database.
+     *
+     * @return Una lista di nomi di tabelle.
+     */
     public List<String> getTables() {
         List<String> listaTabelle= new ArrayList<>();
         try {
@@ -46,7 +62,14 @@ public class ServerOneClient extends Thread{
             return listaTabelle;
         }
     }
-        public void setDataBase() throws IOException, DatabaseConnectionException, ClassNotFoundException {
+    /**
+     * Imposta la connessione al database leggendo le informazioni inviate dal client.
+     *
+     * @throws IOException Se si verifica un errore durante la lettura dei dati dal client.
+     * @throws DatabaseConnectionException Se si verifica un errore durante la connessione al database.
+     * @throws ClassNotFoundException Se si verifica un errore nella lettura dei dati del database.
+     */
+    public void setDataBase() throws IOException, DatabaseConnectionException, ClassNotFoundException {
            String Server= (String) in.readObject();
            String Database = (String) in.readObject();
            Integer Port = (Integer) in.readObject();
@@ -56,6 +79,9 @@ public class ServerOneClient extends Thread{
                    + "?user=" + User_ID + "&password=" + password + "&serverTimezone=UTC";
     }
 
+    /**
+     * Gestisce le comunicazioni e le richieste del client in un thread separato.
+     */
     @Override
     public void run() {
        boolean connectionAlive=true;
