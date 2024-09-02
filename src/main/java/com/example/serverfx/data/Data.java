@@ -22,7 +22,7 @@ public class Data {
 	 * @param db        L'oggetto {@link DbAccess} che gestisce la connessione al database.
 	 * @param tableName Il nome della tabella da cui estrarre i dati.
 	 * @throws NoDataException Se si verifica un problema durante l'estrazione dei dati
-	 *                         o se la tabella è vuota.
+	 *    	                     o se la tabella è vuota.
 	 */
 	public Data(DbAccess db,String tableName) throws NoDataException{
 		try {
