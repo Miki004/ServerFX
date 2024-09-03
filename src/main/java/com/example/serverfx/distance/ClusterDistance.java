@@ -9,7 +9,7 @@ import com.example.serverfx.data.Data;
  */
 public interface ClusterDistance {
 
-	//visibilità public
+
 	/**
 	 * Calcola la distanza tra due cluster.
 	 *

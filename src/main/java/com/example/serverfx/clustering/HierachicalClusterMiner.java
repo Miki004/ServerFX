@@ -60,10 +60,8 @@ public class HierachicalClusterMiner implements Serializable {
 			iesimo_cluster.addData(i);
 			startClusterSet.add(iesimo_cluster);
 		}
-		//nel livello 0 del dendrogramma verrà collocato il clusterSet iniziale con all'interno dei singoli cluster ogni esempio distinto
 		dendrogram.setClusterSet(startClusterSet, 0);
-		//comincio a fondere i cluster con una certa distance(oggetto di una classe che implementa l'interfaccia ClusterDistance.
-		for(int j=0; j<dendrogram.getDepth()-1; j++) {
+			for(int j=0; j<dendrogram.getDepth()-1; j++) {
 			ClusterSet newclusterSet=dendrogram.getClusterSet(j).mergeClosestClusters(distance, data);
 			dendrogram.setClusterSet(newclusterSet, j+1);
 		}
