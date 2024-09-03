@@ -17,7 +17,7 @@ public class MainTest extends Thread{
         try {
             initServer();
         }catch (IOException e ) {
-            System.out.println("ERROR");
+            System.out.println(e.getMessage());
         }
 
     }
